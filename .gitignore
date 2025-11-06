@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+
+# Ambientes virtuais
+venv/
+env/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+
+# Arquivos de saída da transcrição
+*.txt
+
+# Arquivos de áudio/vídeo (testes)
+*.mp4
+*.mp3
+*.wav
+*.m4a
+*.avi
+*.mov
+*.mkv
+*.flac
+*.ogg
+
+# Sistema
+.DS_Store
+Thumbs.db
