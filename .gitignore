@@ -15,6 +15,7 @@ env/
 
 # Arquivos de saída da transcrição
 *.txt
+!requirements.txt
 
 # Arquivos de áudio/vídeo (testes)
 *.mp4

@@ -1,6 +1,5 @@
 from __future__ import annotations
 from pathlib import Path
-from moviepy.editor import VideoFileClip
 import subprocess
 
 def extract_audio(input_path: str | Path, output_path: str | Path, sample_rate: int = 16000) -> Path:
@@ -11,10 +10,19 @@ def extract_audio(input_path: str | Path, output_path: str | Path, sample_rate: 
         output_path = output_path.with_suffix(".wav")
 
     try:
+        try:
+            from moviepy.editor import VideoFileClip
+        except ImportError:
+            from moviepy import VideoFileClip  # MoviePy 2.x support
+
         video = VideoFileClip(str(input_path))
         audio = video.audio
+        if audio is None:
+            video.close()
+            raise ValueError("O arquivo de vídeo não possui faixa de áudio.")
         audio.write_audiofile(str(output_path), verbose=False, logger=None)
-        audio.close(); video.close()
+        audio.close()
+        video.close()
         return output_path
     except Exception as e:
         print(f"[extractor] MoviePy falhou ({e}), usando ffmpeg...")
@@ -26,4 +34,4 @@ def extract_audio(input_path: str | Path, output_path: str | Path, sample_rate: 
         result = subprocess.run(cmd, capture_output=True, text=True)
         if result.returncode != 0:
             raise RuntimeError(f"FFmpeg falhou: {result.stderr[:500]}")
-        return output_path
+        return output_path
